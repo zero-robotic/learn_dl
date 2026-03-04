@@ -364,3 +364,12 @@ def try_all_gpus():
     devices = [torch.device(f'cuda:{i}')
             for i in range(torch.cuda.device_count())]
     return devices if devices else [torch.device('cpu')]
+
+
+def corr2d(X, K):
+    h, w = K.shape
+    Y = torch.zeros((X.shape[0] - h + 1, X.shape[1] - w + 1))
+    for i in range(Y.shape[0]):
+        for j in range(Y.shape[1]):
+            Y[i, j] = (X[i:i + h, j:j + 2] * K).sum()
+    return Y
