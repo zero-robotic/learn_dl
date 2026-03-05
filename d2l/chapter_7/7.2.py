@@ -38,7 +38,7 @@ for blk in net:
     print(blk.__class__.__name__, 'output shape:\t', X.shape)
 
 ratio = 4
-small_conv_arch = [(pair[0], pair[1] // ration) for pair in conv_arch]
+small_conv_arch = [(pair[0], pair[1] // ratio) for pair in conv_arch]
 net = vgg(small_conv_arch)
 lr, num_epochs, batch_size = 0.05, 10, 128
 train_iter, test_iter = d2l.load_data_fashion_mnist(batch_size, resize=224)
