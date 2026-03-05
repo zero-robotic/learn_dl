@@ -364,6 +364,8 @@ def download_all():
 def try_gpu(i=0):
     if torch.cuda.device_count() >= i + 1:
         return torch.device(f'cuda:{i}')
+    elif torch.mps.device_count() > 0:
+        return torch.device(f'mps')
     return torch.device('cpu')
 
 
