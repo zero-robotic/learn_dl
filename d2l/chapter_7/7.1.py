@@ -1,7 +1,11 @@
+import os
+import sys
+
 import torch
 from torch import nn
-import d2l
 
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+import d2l
 
 net = nn.Sequential(
         nn.Conv2d(1, 96, kernel_size=11, stride=4, padding=1), nn.ReLU(),

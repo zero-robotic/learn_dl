@@ -1,7 +1,11 @@
+import os
+import sys
+
 import torch
 from torch import nn
-import d2l
 
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+import d2l
 
 def nin_block(in_channels, out_channels, kernel_size, strides, padding):
     return nn.Sequential(
