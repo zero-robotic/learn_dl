@@ -59,4 +59,7 @@ state = net.begin_state(X.shape[0], device)
 Y, new_state = net(X.to(device), state)
 print(Y.shape, len(new_state), new_state[0].shape)
 
+
+num_epochs, lr = 500, 1
+d2l.train_ch8(net, train_iter, vocab, lr, num_epochs, d2l.try_gpu())
 print(d2l.predict_ch8('time traverller ', 10, net, vocab, d2l.try_gpu()))
