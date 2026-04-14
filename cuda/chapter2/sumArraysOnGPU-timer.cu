@@ -40,7 +40,9 @@ void initialData(float *ip, int size) {
 
 void sumArraysOnHost(float *A, float *B, float *C, const int N) {
     for (int idx=0; idx < N; idx++) {
-        C[idx] = A[idx] + B[idx];
+        if (idx < N) {
+            C[idx] = A[idx] + B[idx];
+        }
     }
 }
 
@@ -93,7 +95,7 @@ int main(int argc, char **argv) {
     cudaMemcpy(d_A, h_A, nBytes, cudaMemcpyHostToDevice);
     cudaMemcpy(d_B, h_B, nBytes, cudaMemcpyHostToDevice);
 
-    int iLen = 1024;
+    int iLen = 4096;
     dim3 block = iLen;
     dim3 grid = (nElem + block.x - 1) / block.x;
 

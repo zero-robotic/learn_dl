@@ -55,12 +55,11 @@ void sumMatrixOnHost(float *A, float *B, float *C, const int nx, const int ny) {
 
 __global__ void sumMatrixOnGPU2D(float *MatA, float *MatB, float *MatC, int nx, int ny) {
     unsigned int ix = threadIdx.x + blockIdx.x * blockDim.x;
-    unsigned int iy = threadIdx.y + blockIdx.y * blockDim.y;
-    unsigned int idx = iy * nx + ix;
-
-    if (ix < nx && iy < ny) {
-        MatC[idx] = MatA[idx] + MatB[idx];
-
+    if (ix < nx) {
+        for (int iy = 0; iy < ny; iy++) {
+            int idx = iy * nx + ix;
+            MatC[idx] = MatA[idx] + MatB[idx];
+        }
     }
 }
 
@@ -111,10 +110,10 @@ int main(int argc, char **argv) {
     cudaMemcpy(d_MatA, h_A, nBytes, cudaMemcpyHostToDevice);
     cudaMemcpy(d_MatB, h_B, nBytes, cudaMemcpyHostToDevice);
 
-    int dimx = 16;
-    int dimy = 16;
+    int dimx = 128;
+    int dimy = 1;
     dim3 block(dimx, dimy);
-    dim3 grid((nx + block.x - 1) / block.x, (ny + block.y - 1) / block.y);
+    dim3 grid((nx + block.x - 1) / block.x, 1);
 
     iStart = cpuSecond();
     sumMatrixOnGPU2D<<<grid, block>>>(d_MatA, d_MatB, d_MatC, nx, ny);
